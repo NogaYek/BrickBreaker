@@ -5,16 +5,23 @@ import bricker.gameobjects.Paddle;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.collisions.GameObjectCollection;
+import danogl.gui.WindowController;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class LongPaddle extends PowerUp{
 
-    private final Ball ball;
+
     private final Paddle paddle;
+    private WindowController windowController;
 
-
+    Timer timer;
 
     /**
      * Construct a new GameObject instance.
@@ -28,11 +35,12 @@ public class LongPaddle extends PowerUp{
     /**
      this power-up makes the paddle twice as long, for 5 seconds
      */
-    public LongPaddle(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, GameObjectCollection gameObjects, Ball ball, Paddle paddle) {
+    public LongPaddle(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, GameObjectCollection gameObjects,  Paddle paddle, WindowController windowController) {
         super(topLeftCorner, dimensions, renderable, "LongPaddle", gameObjects);
-        this.ball = ball;
         this.paddle = paddle;
 
+        this.windowController = windowController;
+        this.timer = new Timer();
     }
 
     @Override
@@ -46,8 +54,14 @@ public class LongPaddle extends PowerUp{
         paddle.setDimensions(paddle.getDimensions().multX(2));
         scheduleRemoveEffect(5000);
     }
-
-    @Override
+    public void scheduleRemoveEffect(int delay){
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                removeEffect();
+            }
+        }, delay);
+    }
     public void removeEffect() {
         paddle.setDimensions(paddle.getDimensions().multX(0.5f));
     }

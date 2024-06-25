@@ -13,7 +13,7 @@ import java.util.TimerTask;
 public abstract class PowerUp extends GameObject {
     protected String name;
     private GameObjectCollection gameObjects;
-    private Timer timer;
+
     /**
      * Construct a new GameObject instance.
      *
@@ -32,7 +32,7 @@ public abstract class PowerUp extends GameObject {
         super(topLeftCorner, dimensions, renderable);
         this.name = name;
         this.gameObjects = gameObjects;
-        this.timer = new Timer();
+
     }
 
     @Override
@@ -46,14 +46,6 @@ public abstract class PowerUp extends GameObject {
     }
 
     public abstract void applyEffect();
-    public abstract void removeEffect();
-    public void scheduleRemoveEffect(int delay){
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                removeEffect();
-            }
-        }, delay);
-    }
+
 
 }

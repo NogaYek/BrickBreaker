@@ -5,14 +5,18 @@ import bricker.gameobjects.Paddle;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.collisions.GameObjectCollection;
+import danogl.gui.WindowController;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class FastBall extends PowerUp{
 
-    private final Ball ball;
+public class FastGame extends PowerUp{
+
     private final Paddle paddle;
+    private WindowController windowController;
 
 
     /**
@@ -27,11 +31,11 @@ public class FastBall extends PowerUp{
     /**
      this power-up makes the ball go twice as fast, for 5 seconds
      */
-    public FastBall(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, GameObjectCollection gameObjects, Ball ball, Paddle paddle) {
+    public FastGame(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, GameObjectCollection gameObjects, Paddle paddle, WindowController windowController) {
         super(topLeftCorner, dimensions, renderable, "FastBall", gameObjects);
-        this.ball = ball;
         this.paddle = paddle;
 
+        this.windowController = windowController;
     }
 
     @Override
@@ -42,15 +46,9 @@ public class FastBall extends PowerUp{
 
     @Override
     public void applyEffect() {
-        ball.setVelocity(ball.getVelocity().mult(2));
-        scheduleRemoveEffect(5000);
+        windowController.setTimeScale(1.3f);
     }
 
-    @Override
-    public void removeEffect() {
-        ball.setVelocity(ball.getVelocity().mult(0.5f));
-
-    }
 
 
 }
